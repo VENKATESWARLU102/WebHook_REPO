@@ -8,6 +8,11 @@ Configured a GitHub webhook to send a POST request to an external server wheneve
 
 Webhook Receiver (Flask Backend)
 
+![WhatsApp Image 2025-07-05 at 17 10 04_1d57b057](https://github.com/user-attachments/assets/b4612d6b-77cf-41ad-b9ec-555fa13f9eb0)
+
+![WhatsApp Image 2025-07-05 at 17 14 47_6e83ab17](https://github.com/user-attachments/assets/e3a8e864-cbe3-49af-8f3b-4dc9287f85e2)
+
+
 Created another repository called webhook-repo which contains the Flask application to receive and handle webhook payloads.
 
 Since Flask runs locally (on localhost), used ngrok to expose it to the internet, and copied the ngrok public URL to GitHub webhook settings.
