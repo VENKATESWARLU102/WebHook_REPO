@@ -29,6 +29,9 @@ request_id, author, action, from_branch, to_branch, timestamp.
 
 MongoDB Integration
 
+![WhatsApp Image 2025-07-05 at 17 14 29_6a624f02](https://github.com/user-attachments/assets/667bac1c-1b9c-4470-a9ee-d22734c4ae53)
+
+
 The structured data is stored in MongoDB using the schema specified in the task.
 
 This allows for querying and displaying a history of GitHub actions.
