@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webhook Events UI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 1em; background: #f9f9f9; padding: 1em; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h2>Latest Webhook Events</h2>
+    <ul id="events-list"></ul>
+    <script>
+        function formatTimestamp(ts) {
+            // Try to parse ISO or fallback to string
+            let date = new Date(ts);
+            if (isNaN(date)) return ts;
+            let options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' };
+            return date.toLocaleString('en-US', options) + ' UTC';
+        }
+
+        function formatEvent(ev) {
+            const author = ev.author;
+            const from_branch = ev.from_branch;
+            const to_branch = ev.to_branch;
+            const timestamp = formatTimestamp(ev.timestamp);
+
+            if (ev.action === "PUSH") {
+                return `<strong>${author}</strong> pushed to <strong>${to_branch}</strong> on <strong>${timestamp}</strong>`;
+            } else if (ev.action === "PULL_REQUEST") {
+                return `<strong>${author}</strong> submitted a pull request from <strong>${from_branch}</strong> to <strong>${to_branch}</strong> on <strong>${timestamp}</strong>`;
+            } else if (ev.action === "MERGE") {
+                return `<strong>${author}</strong> merged branch <strong>${from_branch}</strong> to <strong>${to_branch}</strong> on <strong>${timestamp}</strong>`;
+            } else {
+                return JSON.stringify(ev);
+            }
+        }
+
+        function fetchEvents() {
+            fetch('/webhook/events')
+                .then(res => res.json())
+                .then(events => {
+                    const ul = document.getElementById('events-list');
+                    ul.innerHTML = '';
+                    events.forEach(ev => {
+                        const li = document.createElement('li');
+                        li.innerHTML = formatEvent(ev);
+                        ul.appendChild(li);
+                    });
+                });
+        }
+        fetchEvents();
+        setInterval(fetchEvents, 15000);
+    </script>
+</body>
+</html>
